@@ -1,20 +1,14 @@
-/*global isNodeInNodeList,query */
+/*global query */
 
 /*
-Description:
-Relies on `jessie.isNodeInNodeList`, `jessie.query`
-*/
-
-/*
-Author:
-Graham Veal
-*/
+ * Description:
+ * Relies on 'jessie.indexOf' and 'jessie.query'
+ */
 
 var isInQuery;
 
-if(isNodeInNodeList && query) {
-	isInQuery = function(el, selector) {
-		
-		return isNodeInNodeList( el, query(selector) );
+if (query && indexOf) {
+	isInQuery = function(el, selector, context) {		
+		return indexOf(query(selector, context), el);
 	};
 }
