@@ -1,8 +1,7 @@
-/*global */
+/*global forEach,canCall*/
 
 /*
 Description:
-Replicates Array.prototype.some
 */
 
 /*
@@ -12,19 +11,21 @@ Graham Veal
 
 var some;
 
-some = function(arr, iterator, context) {
+if(canCall) {
+	some = function(arr, iterator, context) {
 
-	var i = 0,
-		l = arr.length;
+		var i = 0,
+			l = rr.length;
 
-	context = context || arr;
-	
-	for( ; i < l; i++ ){
+		context = context || arr;
+		
+		for( ; i < l; i++ ){
 
-		if( iterator.call(context, arr[ i ], i, arr) ){
-			return true;
+			if( iterator.call(context, arr[ i ], i, arr) ){
+				return true;
+			}
 		}
-	}
 
-	return false;
-};
+		return false;
+	};
+}
