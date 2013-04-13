@@ -1,0 +1,56 @@
+<html>
+<head>
+	<title>Test</title>
+</head>
+<body>
+
+	<form>
+		<input type="text" name="adam">
+		<input type="submit" name="send">
+	</form>
+
+	<script type="text/javascript" src="jessie.js"></script>
+	<script type="text/javascript">
+		var delegateSubmitListener;
+
+		if(jessie.isHostMethod(document.body, "addEventListener")) {
+			delegateSubmitListener = function(el, fn) {
+				el.addEventListener("submit", function(e) {
+					var currentTarget = jessie.getEventTarget(e);
+					fn.call(currentTarget, e, currentTarget);
+				}, false);
+
+			}
+		}
+		else if(jessie.isHostMethod(document.body, "attachEvent")) {
+			delegateSubmitListener = function(el, fn) {
+				// TODO:
+				// el.attachEvent("keydown", function(e) {
+				// 	var target = jessie.getTarget(e);
+				// 	alert(target.tagName);
+				// });
+				
+				el.attachEvent("onclick", function(e) {
+					var target = jessie.getEventTarget(e);
+					var form;
+					if( target.tagName.toLowerCase() === "input" &&
+						target.type === "submit") {
+						form = jessie.getAncestorByTagName(target, "form");
+					}
+					if(form) {
+						fn.call(form, e, form);
+					}
+					
+				});
+			}
+		}
+
+		var el = document.body;
+		
+		delegateSubmitListener(el, function(e, form) {			
+			jessie.cancelDefault(e);
+		});
+
+	</script>
+</body>
+</html>
